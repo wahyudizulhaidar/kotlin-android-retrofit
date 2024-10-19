@@ -1,9 +1,0 @@
-[33mcommit fb50f31d7d258a8b8e45e65c0ffd88448fa9ef16[m[33m ([m[1;31mupstream/master[m[33m, [m[1;31mupstream/HEAD[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmaster[m[33m)[m
-Merge: c9d96a5 a60b8bc
-Author: Lazday Indonesia <39341541+lazdayid@users.noreply.github.com>
-Date:   Mon Oct 19 17:15:56 2020 +0700
-
-    Merge pull request #4 from lazdayid/refactor
-    
-    separate client interceptor
-
