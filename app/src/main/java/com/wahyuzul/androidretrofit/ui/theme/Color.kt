@@ -1,4 +1,4 @@
-package com.wahyuzul.myapplication.ui.theme
+package com.wahyuzul.androidretrofit.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

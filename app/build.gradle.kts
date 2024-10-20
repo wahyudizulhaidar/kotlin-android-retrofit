@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.wahyuzul.myapplication"
+    namespace = "com.wahyuzul.androidretrofit"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.wahyuzul.myapplication"
+        applicationId = "com.wahyuzul.androidretrofit"
         minSdk = 21
         targetSdk = 34
         versionCode = 1

@@ -1,4 +1,4 @@
-package com.wahyuzul.myapplication
+package com.wahyuzul.androidretrofit
 
 import org.junit.Test
 
