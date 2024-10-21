@@ -6,8 +6,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.lazday.kotlinandroidretrofit.databinding.ActivityMainBinding
 import com.lazday.kotlinandroidretrofit.retrofit.ApiService
-import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -16,10 +16,12 @@ class MainActivity : AppCompatActivity() {
     private val TAG: String = "MainActivity"
 
     private lateinit var movieAdapter: MovieAdapter
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         supportActionBar!!.title = "Avengers"
         setupRecyclerView()
         getDataFromApi()
@@ -35,7 +37,7 @@ class MainActivity : AppCompatActivity() {
                 )
             }
         })
-        recyclerView.apply {
+        binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = movieAdapter
         }
@@ -67,8 +69,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun showLoading(loading: Boolean) {
         when(loading) {
-            true -> progressBar.visibility = View.VISIBLE
-            false -> progressBar.visibility = View.GONE
+            true -> binding.progressBar.visibility = View.VISIBLE
+            false -> binding.progressBar.visibility = View.GONE
         }
     }
 
