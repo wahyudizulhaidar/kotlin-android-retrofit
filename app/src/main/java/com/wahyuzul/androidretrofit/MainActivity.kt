@@ -2,8 +2,11 @@ package com.wahyuzul.androidretrofit
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.wahyuzul.androidretrofit.databinding.ActivityMainBinding
 import com.wahyuzul.androidretrofit.retrofit.ApiService
 import retrofit2.Call
 import retrofit2.Callback
@@ -12,35 +15,50 @@ import retrofit2.Response
 class MainActivity : ComponentActivity() {
 
     private val TAG: String = "MainActivity"
-
-    // Inisialisasi ApiService karena endPoint bukan companion object
-    private val apiService = ApiService()
-    private val endPoint = apiService.endPoint
+    private lateinit var binding : ActivityMainBinding
+    lateinit var mainAdapter: MainAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
     }
 
     override fun onStart() {
         super.onStart()
+        setupRecylerView()
         getDataFromAPi()
     }
 
+    private fun setupRecylerView() {
+        mainAdapter = MainAdapter(arrayListOf())
+        binding.recyclerView.apply {
+            layoutManager = LinearLayoutManager(applicationContext)
+            adapter = mainAdapter
+        }
+    }
+
     private fun getDataFromAPi() {
-        endPoint.getPhotos()
-            .enqueue(object : Callback<List<MainModel>> {
-                override fun onResponse(call: Call<List<MainModel>>, response : Response<List<MainModel>>) {
+        binding.progressBar.visibility = View.VISIBLE
+        ApiService.endPoint.getData()
+            .enqueue(object : Callback<MainModel> {
+                override fun onResponse(
+                    call: Call<MainModel>,
+                    response : Response<MainModel>
+                ) {
                     if (response.isSuccessful) {
-                        val result = response.body()
-                        printLog(result.toString())
-                        showPhotos(result!!)
+                        binding.progressBar.visibility = View.GONE
+                        showData(response.body()!!)
                     }
                 }
 
-                override fun onFailure(call: Call<List<MainModel>>, t: Throwable) {
-                    printLog( t.toString() )
+                override fun onFailure(
+                    call: Call<MainModel>,
+                    t: Throwable
+                ) {
+                    binding.progressBar.visibility = View.GONE
+                    printLog( "onFailure: $t" )
                 }
             })
     }
@@ -49,9 +67,8 @@ class MainActivity : ComponentActivity() {
         Log.d(TAG, message)
     }
 
-    private fun showPhotos(photos: List<MainModel>) {
-        for (photo in photos) {
-            printLog("title: ${photo.title}")
-        }
+    private fun showData(data: MainModel) {
+        val results = data.result
+        mainAdapter.setData( results )
     }
 }
